@@ -95,7 +95,7 @@
             //cmds += esc + "E" + '\x00';
             cmds += newLine;
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += 'Tel: '+ '09000000001 ';
+            cmds += 'Tel: '+ '0906 800 0023 ';
             cmds += 'website' + ' www.hail.ng';
             cmds += newLine;
             cmds += '---------------------------------';
@@ -116,7 +116,7 @@
             cmds += newLine;
             cmds += '---------------------------------';
            // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine + newLine;
+            cmds += newLine;
             var waybil = new Uint8Array(5);
             var crypto = window.crypto.getRandomValues(waybil);
             var waybillStr = waybil.toString().split(',').join('');
@@ -136,13 +136,12 @@
             cmds += '---------------------------------';
 
             cmds += newLine;
-            cmds += newLine;
-            cmds += esc + '!' + '\x18';
+            cmds += esc + '!' + '\x14';
             cmds += 'The Best One';
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += newLine;
             cmds += 'Address: 1 Opedi Ikejo';
-            cmds += newLine + newLine;
+            cmds += newLine;
             cmds += '---------------------------------';
             cmds += newLine;
             cmds += 'Recipient\'s: Signature' ;
@@ -150,7 +149,7 @@
             cmds += 'Date:'; 
             cmds += newLine;
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine + newLine;
+            cmds += newLine;
             cmds += '---------------------------------';
             cmds += newLine;
             cmds += 'Payment:  KOJ'
