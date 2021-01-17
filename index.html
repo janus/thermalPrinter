@@ -94,16 +94,18 @@
             //cmds += esc + "E" + '\x00';
             cmds += newLine;
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += 'Tel: '+ '09000000001';
+            cmds += 'Tel: '+ '09000000001 ';
             cmds += 'Website' + 'www.hail.ng';
             cmds += newLine;
             cmds += '---------------------------------';
-            cmds += esc + '!' + '\x38'; 
+            cmds += esc + '!' + '\x38';
+            cmds += newLine; 
             cmds += 'From';
             cmds += esc + '!' + '\x00';
             cmds += "DoubleCoin , Allen Avenue Lagos";
             cmds += newLine;
             cmds += '---------------------------------';
+            cmds += newLine;
             cmds += esc + '!' + '\x38'; 
             cmds += 'To';
             cmds += esc + '!' + '\x00';
@@ -127,24 +129,19 @@
             cmds += GS + 'H'  + '\x02';
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x08';
-            cmds += '89374647282'; //item to be written
-            cmds += '\x00' + '\x0A';
+            cmds += GS + 'k'  + '\x08' + '89374647282' + '\x00' + '\x0A';
 
             cmds += newLine;
-            cmds += GS + 'H'  + '\x02';
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x07';
-            cmds += '89374647282'; //item to be written
-            cmds += '\x00' + '\x0A';
+            cmds += GS + 'k'  + '\x02' + '89374647282' + '\x00' + '\x0A';
 
 
             cmds += newLine;
             cmds += GS + 'H'  + '\x02';
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x04';
+            cmds += GS + 'k'  + '\x02';
             cmds += '*00061*'; //item to be written
             cmds += '\x00' + '\x0A';
 
@@ -161,6 +158,7 @@
             cmds += '# ITEMS SOLD 2';
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += newLine + newLine;
+            cmds += GS + 'V' + '\x00';
   
             cpj.printerCommands = cmds;
             //Send print job to printer!
