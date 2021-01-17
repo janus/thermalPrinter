@@ -82,6 +82,7 @@
             var f = '\x66'; //f byte in hex notation
             var k = '\x6B'; //k byte in hex notation
             var J = '\x4A'; //J byte in hex notation
+
             var date = new Date(); 
             var cmds = esc + "@"; //Initializes the printer (ESC @)
             cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
@@ -97,13 +98,41 @@
             cmds += 'Date :' + date.toDateString();
             cmds += newLine;
             cmds += newLine;
-            cmds += GS + H  + '\x02';
-            cmds += GS + f  + '\x01';
-            cmds += GS + h  + '\x23';
-            cmds += GS + k  + '\x04';
+            cmds += GS + 'H'  + '\x02';
+            cmds += GS + 'f'  + '\x01';
+            cmds += GS + 'h'  + '\x23';
+            cmds += GS + 'k'  + '\x04' + '12345678' + '\x00';
+
+
+            cmds += newLine;
+            cmds += newLine;
+            cmds += GS + 'H'  + '\x02';
+            cmds += GS + 'f'  + '\x01';
+            cmds += GS + 'h'  + '\x23';
+            cmds += GS + 'k'  + '\x08';
             cmds += '89374647282'; //item to be written
             cmds += '\x00';
-            cmds += esc +  J + '\x28';
+            cmds += esc +  'J' + '\x28';
+
+            cmds += newLine;
+            cmds += GS + 'H'  + '\x02';
+            cmds += GS + 'f'  + '\x01';
+            cmds += GS + 'h'  + '\x23';
+            cmds += GS + 'k'  + '\x07';
+            cmds += '89374647282'; //item to be written
+            cmds += '\x00';
+            cmds += esc +  'J' + '\x28';
+
+
+            cmds += newLine;
+            cmds += GS + 'H'  + '\x02';
+            cmds += GS + 'f'  + '\x01';
+            cmds += GS + 'h'  + '\x23';
+            cmds += GS + 'k'  + '\x04';
+            cmds += '*00061*'; //item to be written
+            cmds += '\x00';
+            cmds += esc +  'J' + '\x28';
+
 
             cmds += newLine;
             cmds += newLine;
