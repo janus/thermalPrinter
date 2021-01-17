@@ -97,23 +97,27 @@
             cmds += 'Tel: '+ '09000000001 ';
             cmds += 'Website' + 'www.hail.ng';
             cmds += newLine;
+            cmds += newLine;
             cmds += '---------------------------------';
             cmds += esc + '!' + '\x38';
             cmds += newLine; 
-            cmds += 'From';
+            cmds += 'From:';
+            cmds += newLine; 
             cmds += esc + '!' + '\x00';
             cmds += "DoubleCoin , Allen Avenue Lagos";
             cmds += newLine;
             cmds += '---------------------------------';
             cmds += newLine;
             cmds += esc + '!' + '\x38'; 
-            cmds += 'To';
+            cmds += 'To:';
+            cmds += newLine; 
             cmds += esc + '!' + '\x00';
             cmds += 'Offor Agu, 66 30'; 
+            cmds += newLine;
             cmds += '---------------------------------';
            // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += newLine + newLine;
-            cmds += 'Waybill Number:          89374647282';
+            cmds += 'Waybill Number: 89374647282';
             cmds += newLine;
             cmds += 'Date :' + date.toDateString();
             cmds += newLine;
@@ -123,15 +127,9 @@
             cmds += GS + 'h'  + '\x23';
             cmds += GS + 'k'  + '\x04' + '12345678' + '\x00' + '\x0A';
 
-
             cmds += newLine;
             cmds += newLine;
             cmds += GS + 'H'  + '\x02';
-            cmds += GS + 'f'  + '\x01';
-            cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x08' + '89374647282' + '\x00' + '\x0A';
-
-            cmds += newLine;
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
             cmds += GS + 'k'  + '\x02' + '89374647282' + '\x00' + '\x0A';
