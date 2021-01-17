@@ -86,12 +86,30 @@
             var date = new Date(); 
             var cmds = esc + "@"; //Initializes the printer (ESC @)
             cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
+            cmds += esc + 'a' + '\x01';
+            cmds += esc + 'M' + '\x00';
+            cmds += esc + "E" + '\x01';
+            cmds += GS + '!' + '\x10';
             cmds += 'Hail Nigeria Courier'; //text to print
-            cmds += newLine + newLine;
-            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += 'USB  2.0             '; 
+            //cmds += esc + "E" + '\x00';
             cmds += newLine;
-            cmds += 'Laptop             ';
+            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+            cmds += 'Tel: '+ '09000000001';
+            cmds += 'Website' + 'www.hail.ng';
+            cmds += newLine;
+            cmds += '---------------------------------';
+            cmds += esc + '!' + '\x38'; 
+            cmds += 'From';
+            cmds += esc + '!' + '\x00';
+            cmds += "DoubleCoin , Allen Avenue Lagos";
+            cmds += newLine;
+            cmds += '---------------------------------';
+            cmds += esc + '!' + '\x38'; 
+            cmds += 'To';
+            cmds += esc + '!' + '\x00';
+            cmds += 'Offor Agu, 66 30'; 
+            cmds += '---------------------------------';
+           // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += newLine + newLine;
             cmds += 'Waybill Number:          89374647282';
             cmds += newLine;
@@ -101,7 +119,7 @@
             cmds += GS + 'H'  + '\x02';
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x04' + '12345678' + '\x00';
+            cmds += GS + 'k'  + '\x04' + '12345678' + '\x00' + '\x0A';
 
 
             cmds += newLine;
@@ -111,7 +129,7 @@
             cmds += GS + 'h'  + '\x23';
             cmds += GS + 'k'  + '\x08';
             cmds += '89374647282'; //item to be written
-            cmds += '\x00';
+            cmds += '\x00' + '\x0A';
 
             cmds += newLine;
             cmds += GS + 'H'  + '\x02';
@@ -119,7 +137,7 @@
             cmds += GS + 'h'  + '\x23';
             cmds += GS + 'k'  + '\x07';
             cmds += '89374647282'; //item to be written
-            cmds += '\x00';
+            cmds += '\x00' + '\x0A';
 
 
             cmds += newLine;
@@ -128,7 +146,7 @@
             cmds += GS + 'h'  + '\x23';
             cmds += GS + 'k'  + '\x04';
             cmds += '*00061*'; //item to be written
-            cmds += '\x00';
+            cmds += '\x00' + '\x0A';
 
 
             cmds += newLine;
