@@ -96,13 +96,11 @@
             cmds += newLine;
             cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += 'Tel: '+ '09000000001 ';
-            cmds += 'website' + 'www.hail.ng';
-            cmds += newLine;
+            cmds += 'website' + ' www.hail.ng';
             cmds += newLine;
             cmds += '---------------------------------';
             cmds += newLine; 
             cmds += esc + '!' + '\x20';
-            cmds += newLine; 
             cmds += 'From:';
             cmds += newLine; 
             cmds += esc + '!' + '\x00';
@@ -119,7 +117,13 @@
             cmds += '---------------------------------';
            // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
             cmds += newLine + newLine;
-            cmds += 'Waybill Number: 89374647282';
+            var waybil = new Uint8Array(5);
+            var crypto = window.crypto.getRandomValues(waybil);
+            var waybillStr = waybil.toString().split(',').join('');
+            if (waybillStr.length % 2 == 1) {
+                waybillStr += '9';
+            }
+            cmds += 'Waybill Number:' + waybillStr;
             cmds += newLine;
             cmds += 'Date :' + date.toDateString();
             cmds += newLine;
@@ -127,19 +131,9 @@
             cmds += GS + 'H'  + '\x02';
             cmds += GS + 'f'  + '\x01';
             cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x02' + '12345678' + '\x00' + '\x0A';
-
-            cmds += GS + 'k'  + '\x02' + '893746472826' + '\x00' + '\x0A';
-
-
+            cmds += GS + 'k'  + '\x02' + waybillStr + '\x00' + '\x0A';
             cmds += newLine;
-            cmds += GS + 'H'  + '\x02';
-            cmds += GS + 'f'  + '\x01';
-            cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x02';
-            cmds += '*100061*'; //item to be written
-            cmds += '\x00' + '\x0A';
-
+            cmds += '---------------------------------';
 
             cmds += newLine;
             cmds += newLine;
@@ -149,20 +143,19 @@
             cmds += newLine;
             cmds += 'Address: 1 Opedi Ikejo';
             cmds += newLine + newLine;
-            cmds += esc + '!' + '\x18'; //Emphasized + Double-height mode selected (ESC ! (16 + 8)) 24 dec => 18 hex
-            cmds += '# ITEMS SOLD 2';
-            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine + newLine;
             cmds += '---------------------------------';
-            cmds += newLine;
-            cmds += `F9 TWS 5.0 Bluetooth wireless Headphones Touch Control Headset Gaming Earbuds In Ear Earpieces With Dual-Microphones`;
-            cmds += 'Weight: 23kg';
-            cmds += 'Cost:  #500'
             cmds += newLine;
             cmds += 'Recipient\'s: Signature' ;
             cmds += newLine; 
             cmds += 'Date:'; 
             cmds += newLine;
+            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+            cmds += newLine + newLine;
+            cmds += '---------------------------------';
+            cmds += newLine;
+            cmds += 'Payment:  KOJ'
+            cmds += newLine;
+
             cmds += '---------------------------------';
             cmds += GS + 'V' + '\x00';
   
