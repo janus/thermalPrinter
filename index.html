@@ -9,6 +9,7 @@
  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 </head>
 <body>
 
@@ -28,6 +29,29 @@
     <button type="button" onclick="print();">Print Now...</button>
 </div>
 </body>
+
+<form enctype="multipart/form-data">
+    <label>Company Name:</label><input id="company" type="text"> <br> <br>
+    <div><label>Company Address:</label><input id="address" type="text"> <br> <br>
+       <input id="upload" type=file  name="files">
+   </form>
+
+<script>
+var arrayOfRows = [];
+//function handleFileSelect(evt) {
+  var input = document.getElementById('upload');
+  //var files = evt.target.files;
+  input.addEventListener('change', function() {
+    readXlsxFile(input.files[0]).then(function(rows) {
+      for(var i = 0; rows.length; i++) {
+          arrayOfRows.push(rows[i]);
+      }
+      // `rows` is an array of rows
+      // each row being an array of cells.
+    })
+  })
+//}
+</script>
 <script>
  
     //WebSocket settings
@@ -60,7 +84,11 @@
         }
     }
  
-    var foo = ``;
+      
+    function sleep(milli) {
+        return new Promise(function(resolve) { setTimeout(resolve, milli)});
+    }
+
     //Do printing...
     function print(o) {
         if (jspmWSStatus()) {
@@ -72,95 +100,102 @@
             } else {
                 cpj.clientPrinter = new JSPM.InstalledPrinter($('#installedPrinterName').val());
             }
-            //Set content to print...
-            //Create ESP/POS commands for sample label
-            var esc = '\x1B'; //ESC byte in hex notation
-            var newLine = '\x0A'; //LF byte in hex notation
 
-            var GS = '\x1D'; //GS byte in hex notation
-            var H = '\x48'; //H byte in hex notation
-            var h = '\x68'; //h byte in hex notation
-            var f = '\x66'; //f byte in hex notation
-            var k = '\x6B'; //k byte in hex notation
-            var J = '\x4A'; //J byte in hex notation
-
-            var date = new Date(); 
-            var cmds = esc + "@"; //Initializes the printer (ESC @)
-            cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
-            cmds += esc + 'a' + '\x01';
-            cmds += esc + 'M' + '\x00';
-            cmds += esc + "E" + '\x01';
-            cmds += GS + '!' + '\x10';
-            cmds += 'Hail'; //text to print
-            //cmds += esc + "E" + '\x00';
-            cmds += newLine;
-            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += 'Tel: '+ '0906 800 0023 ';
-            cmds += 'website' + ' www.hail.ng';
-            cmds += newLine;
-            cmds += '---------------------------------';
-            cmds += newLine; 
-            cmds += esc + '!' + '\x20';
-            cmds += 'From:';
-            cmds += newLine; 
-            cmds += esc + '!' + '\x00';
-            cmds += "DoubleCoin , Allen Avenue Lagos";
-            cmds += newLine;
-            cmds += '---------------------------------';
-            cmds += newLine;
-            cmds += esc + '!' + '\x20'; 
-            cmds += 'To:';
-            cmds += newLine; 
-            cmds += esc + '!' + '\x00';
-            cmds += 'Offor Agu, 66 30'; 
-            cmds += newLine;
-            cmds += '---------------------------------';
-           // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine;
-            var waybil = new Uint8Array(5);
-            var crypto = window.crypto.getRandomValues(waybil);
-            var waybillStr = waybil.toString().split(',').join('');
-            if (waybillStr.length % 2 == 1) {
-                waybillStr += '9';
+            if(arrayOfRows.length == 0) {
+                return;
             }
-            cmds += 'Waybill Number:' + waybillStr;
-            cmds += newLine;
-            cmds += 'Date :' + date.toDateString();
-            cmds += newLine;
-            cmds += newLine;
-            cmds += GS + 'H'  + '\x02';
-            cmds += GS + 'f'  + '\x01';
-            cmds += GS + 'h'  + '\x23';
-            cmds += GS + 'k'  + '\x02' + waybillStr + '\x00' + '\x0A';
-            cmds += newLine;
-            cmds += '---------------------------------';
 
-            cmds += newLine;
-            cmds += esc + '!' + '\x14';
-            cmds += 'The Best One';
-            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine;
-            cmds += 'Address: 1 Opedi Ikejo';
-            cmds += newLine;
-            cmds += '---------------------------------';
-            cmds += newLine;
-            cmds += 'Recipient\'s: Signature' ;
-            cmds += newLine; 
-            cmds += 'Date:'; 
-            cmds += newLine;
-            cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-            cmds += newLine;
-            cmds += '---------------------------------';
-            cmds += newLine;
-            cmds += 'Payment:  KOJ'
-            cmds += newLine;
+            var company = document.getElementById('company').value;
+            var address = document.getElementById('address').value;
 
-            cmds += '---------------------------------';
-            cmds += GS + 'V' + '\x00';
-  
-            cpj.printerCommands = cmds;
-            //Send print job to printer!
-            cpj.sendToClient();
+            if(address === undefined || company === undefined ) {
+                return;
+            }
+
+            for(var i = 0; i < arrayOfRows.length; i++) {
+                //Set content to print...
+                //Create ESP/POS commands for sample label
+                var esc = '\x1B'; //ESC byte in hex notation
+                var newLine = '\x0A'; //LF byte in hex notation
+
+                var GS = '\x1D'; //GS byte in hex notation
+                var H = '\x48'; //H byte in hex notation
+                var h = '\x68'; //h byte in hex notation
+                var f = '\x66'; //f byte in hex notation
+                var k = '\x6B'; //k byte in hex notation
+                var J = '\x4A'; //J byte in hex notation
+
+                var date = new Date(); 
+                var cmds = esc + "@"; //Initializes the printer (ESC @)
+                cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
+                cmds += esc + 'a' + '\x01';
+                cmds += esc + 'M' + '\x00';
+                cmds += esc + "E" + '\x01';
+                cmds += GS + '!' + '\x10';
+                cmds += 'Hail'; //text to print
+                //cmds += esc + "E" + '\x00';
+                cmds += newLine;
+                cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+                cmds += 'Tel: '+ '0906 800 0023 ';
+                cmds += 'website' + ' www.hail.ng';
+                cmds += newLine;
+                cmds += '---------------------------------';
+                cmds += newLine; 
+                cmds += esc + '!' + '\x20';
+                cmds += 'From:';
+                cmds += newLine; 
+                cmds += esc + '!' + '\x00';
+                cmds += company + ', ' + address;
+                cmds += newLine;
+                cmds += '---------------------------------';
+                cmds += newLine;
+                cmds += esc + '!' + '\x20'; 
+                cmds += 'To:';
+                cmds += newLine; 
+                cmds += esc + '!' + '\x00';
+                cmds += arrayOfRows[i][1] + ', ' + arrayOfRows[i][4]; 
+                cmds += newLine;
+                cmds += '---------------------------------';
+            // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+                cmds += newLine;
+                var waybil = new Uint8Array(5);
+                var crypto = window.crypto.getRandomValues(waybil);
+                var waybillStr = waybil.toString().split(',').join('');
+                if (waybillStr.length % 2 == 1) {
+                    waybillStr += '9';
+                }
+                cmds += 'Waybill Number:' + waybillStr;
+                cmds += newLine;
+                cmds += 'Date :' + date.toDateString();
+                cmds += newLine;
+                cmds += newLine;
+                cmds += GS + 'H'  + '\x02';
+                cmds += GS + 'f'  + '\x01';
+                cmds += GS + 'h'  + '\x23';
+                cmds += GS + 'k'  + '\x02' + waybillStr + '\x00' + '\x0A';
+                cmds += newLine;
+                cmds += '---------------------------------';
+
+                cmds += newLine;
+                cmds += 'Recipient\'s: Signature' ;
+                cmds += newLine; 
+                cmds += 'Date:'; 
+                cmds += newLine;
+                cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+                cmds += newLine;
+                cmds += '---------------------------------';
+                cmds += newLine;
+                cmds += 'Payment: ' + arrayOfRows[i][9];
+                cmds += newLine;
+
+                cmds += '---------------------------------';
+                cmds += GS + 'V' + '\x00';
+    
+                cpj.printerCommands = cmds;
+                //Send print job to printer!
+                cpj.sendToClient();
+                sleep(300).then(function(){ console.log(i)})
+            }
         }
     }
  
