@@ -51,7 +51,12 @@ var arrayOfRows = [];
   input.addEventListener('change', function() {
     readXlsxFile(input.files[0]).then(function(rows) {
       for(var i = 0; rows.length; i++) {
-          arrayOfRows.push(rows[i]);
+        if(rows[i] === undefined && i < 2) {
+           continue;
+         } else {
+            break;
+         }
+         arrayOfRows.push(rows[i]);
       }
       // `rows` is an array of rows
       // each row being an array of cells.

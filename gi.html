@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+
+<script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
+<body>
+<p>Enter details of the company before uploading their data.</p>
+
+
+<form enctype="multipart/form-data">
+ <label>Company Name:</label><input id="company" type="text"> <br> <br>
+ <div><label>Company Address:</label><input id="address" type="text"> <br> <br>
+    <input id="upload" type=file  name="files">
+</form>
+
+<script> var goo = "ONE";</script>
+
+<script>
+//function handleFileSelect(evt) {
+  function sleep(milli) {
+        return new Promise(function(resolve) { setTimeout(resolve, milli)});
+    }
+  var input = document.getElementById('upload');
+  //var files = evt.target.files;
+  var inputb = document.getElementById('company');
+  console.log(inputb.value);
+
+  console.log(goo)
+  input.addEventListener('change', function() {
+    readXlsxFile(input.files[0]).then(function(rows) {
+      if (inputb.value === undefined) {
+    return;
+  }
+      for(var i = 0; rows.length; i++) {
+         if(rows[i] === undefined) {
+           break;
+         }
+         if(rows[i].length < 5) {
+           continue;
+         }
+         console.log(rows[i][0]);
+         // sleep(300).then(function(res){console.log(rows[i);})
+         setTimeout(console.log("HOME"), 30000)
+          //return;
+      }
+      // `rows` is an array of rows
+      // each row being an array of cells.
+    })
+  })
+//}
+</script>
+
+
+
+
+
+</body>
+
+</html>
