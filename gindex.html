@@ -46,27 +46,24 @@
 <script>
 var arrayOfRows = [];
 //function handleFileSelect(evt) {
-    var input = document.getElementById('upload');
+  var input = document.getElementById('upload');
   //var files = evt.target.files;
   var inputb = document.getElementById('company');
-  console.log(inputb.value);
+ 
 
   //console.log(goo)
   input.addEventListener('change', function() {
     readXlsxFile(input.files[0]).then(function(rows) {
       if (inputb.value === undefined) {
-    return;
-  }
+            return;
+       }
       for(var i = 0; rows.length; i++) {
-         if(rows[i] === undefined) {
+         if(rows[i] === undefined && i > 2) {
            break;
          }
-         if(rows[i].length < 5) {
+         if(rows[i].length < 7) {
            continue;
          }
-         console.log(rows[i][0]);
-         // sleep(300).then(function(res){console.log(rows[i);})
-         setTimeout(console.log("HOME"), 30000)
          arrayOfRows.push(rows[i])
           //return;
       }
@@ -139,7 +136,6 @@ var arrayOfRows = [];
             }
 
             for(var i = 0; i < arrayOfRows.length; i++) {
-                console.log(i);
                 //Set content to print...
                 //Create ESP/POS commands for sample label
                 var esc = '\x1B'; //ESC byte in hex notation
@@ -180,7 +176,10 @@ var arrayOfRows = [];
                 cmds += 'To:';
                 cmds += newLine; 
                 cmds += esc + '!' + '\x00';
-                cmds += arrayOfRows[i][1] + ', ' + arrayOfRows[i][4]; 
+                cmds += arrayOfRows[i][1];
+                cmds += newLine;
+                cmds += 'Location: ' + arrayOfRows[i][4];
+                cmds += ' Tel: ' + arrayOfRows[i][2]; 
                 cmds += newLine;
                 cmds += '---------------------------------';
             // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
@@ -191,23 +190,20 @@ var arrayOfRows = [];
                 if (waybillStr.length % 2 == 1) {
                     waybillStr += '9';
                 }
-                cmds += 'Waybill Number:' + waybillStr;
+                cmds += 'Waybill Number: ' + waybillStr;
                 cmds += newLine;
                 cmds += 'Date :' + date.toDateString();
-                cmds += newLine;
                 cmds += newLine;
                 cmds += GS + 'H'  + '\x02';
                 cmds += GS + 'f'  + '\x01';
                 cmds += GS + 'h'  + '\x23';
                 cmds += GS + 'k'  + '\x02' + waybillStr + '\x00' + '\x0A';
-                cmds += newLine;
                 cmds += '---------------------------------';
 
                 cmds += newLine;
                 cmds += 'Recipient\'s: Signature' ;
                 cmds += newLine; 
                 cmds += 'Date:'; 
-                cmds += newLine;
                 cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
                 cmds += newLine;
                 cmds += '---------------------------------';
@@ -217,14 +213,12 @@ var arrayOfRows = [];
 
                 cmds += '---------------------------------';
                 cmds += GS + 'V' + '\x00';
-
-                console.log(cmds);
     
                
                 cpj.printerCommands = cmds;
                 //Send print job to printer!
                 cpj.sendToClient();
-                sleep(400).then(function(r){console.log("JOO")})
+                sleep(400).then(function(r){console.log("Printing!")})
            
             }
         }
