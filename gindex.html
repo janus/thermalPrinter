@@ -150,6 +150,8 @@ var arrayOfRows = [];
 
                 var date = new Date(); 
                 var cmds = esc + "@"; //Initializes the printer (ESC @)
+                cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x8e' + '\x08';
+
                 cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
                 cmds += esc + 'a' + '\x01';
                 cmds += esc + 'M' + '\x00';
