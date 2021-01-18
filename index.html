@@ -15,7 +15,7 @@
 
 
 <div style="text-align:center">
-    <h1>Print ESP/POS commands from Javascript</h1>
+    <h1>PP7MX Thermal Printer</h1>
     <hr />
     <label class="checkbox">
         <input type="checkbox" id="useDefaultPrinter" /> <strong>Print to Default printer</strong>
@@ -28,13 +28,20 @@
     <br /><br />
     <button type="button" onclick="print();">Print Now...</button>
 </div>
+
+<div>
+    <p>Enter details of the company before uploading their data.</p>
+
+
+    <form enctype="multipart/form-data">
+     <label>Company Name:</label><input id="company" type="text"> <br> <br>
+     <div><label>Company Address:</label><input id="address" type="text"> <br> <br>
+        <input id="upload" type=file  name="files">
+    </form>
+
+</div>
 </body>
 
-<form enctype="multipart/form-data">
-    <label>Company Name:</label><input id="company" type="text"> <br> <br>
-    <div><label>Company Address:</label><input id="address" type="text"> <br> <br>
-       <input id="upload" type=file  name="files">
-   </form>
 
 <script>
 var arrayOfRows = [];
