@@ -156,6 +156,7 @@ var arrayOfRows = [];
                 cmds += GS + 'P' +  '\xb4' +  '\xb4';
                 cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\xae' + '\x4a';
                 // page size
+                cmds += GS + 'V' + '\x00';
                 cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
                 cmds += esc + 'a' + '\x01';
                 cmds += esc + 'M' + '\x00';
@@ -226,6 +227,7 @@ var arrayOfRows = [];
 
                 //cmds += GS + 'V' + '\x00';
                 cmds += GS  + 'V' + '\x3c' + '\x1e';
+                cmds += GS + 'V' + '\x00';
     
                
                 cpj.printerCommands = cmds;
