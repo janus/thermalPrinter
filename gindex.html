@@ -153,6 +153,7 @@ var arrayOfRows = [];
 
                 var date = new Date(); 
                 var cmds = esc + "@"; //Initializes the printer (ESC @)
+                cmds += GS + 'P' +  '\xb4' +  '\xb4';
                 cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x9e' + '\x0a';
                 // page size
                 cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
@@ -166,8 +167,8 @@ var arrayOfRows = [];
                 cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
                 cmds += 'Tel: '+ '0906 800 0023 ';
                 cmds += 'website' + ' www.hail.ng';
-                cmds += newLine;
-                cmds += esc + 'd' + '\x02';
+                //cmds += newLine;
+                cmds += esc + 'd' + '\x01';
                 cmds += '---------------------------------';
                 cmds += newLine; 
                 cmds += esc + '!' + '\x16';
@@ -220,9 +221,11 @@ var arrayOfRows = [];
                 cmds += '---------------------------------';
                 cmds += newLine;
                 cmds += 'Payment: ' + arrayOfRows[i][9];
+                cmds += esc + 'd' + '\x03';
                 cmds += newLine;
 
-                cmds += GS + 'V' + '\x00';
+                //cmds += GS + 'V' + '\x00';
+                cmds += GS  + 'V' + '\x3c' + '\x1e';
     
                
                 cpj.printerCommands = cmds;
