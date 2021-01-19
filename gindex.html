@@ -15,7 +15,7 @@
 
 
 <div style="text-align:center">
-    <h1>PP7MX Thermal Printer</h1>
+    <h1>Satajanus Browser based Thermal Printer</p></h1>
     <hr />
     <label class="checkbox">
         <input type="checkbox" id="useDefaultPrinter" /> <strong>Print to Default printer</strong>
@@ -40,6 +40,7 @@
     </form>
 
 </div>
+<div><p>A product of Satajanus</p></div>
 </body>
 
 
@@ -57,6 +58,7 @@ var arrayOfRows = [];
       if (inputb.value === undefined) {
             return;
        }
+       arrayOfRows = [];
       for(var i = 0; rows.length; i++) {
          if(rows[i] === undefined && i > 2) {
            break;
@@ -151,7 +153,7 @@ var arrayOfRows = [];
 
                 var date = new Date(); 
                 var cmds = esc + "@"; //Initializes the printer (ESC @)
-                cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x9e' + '\x09';
+                cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x9e' + '\x0a';
                 // page size
                 cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
                 cmds += esc + 'a' + '\x01';
@@ -174,7 +176,7 @@ var arrayOfRows = [];
                 cmds += esc + '!' + '\x00';
                 cmds += company + ', ' + address;
                 cmds += newLine;
-                cmds += esc + 'd' + '\x02';
+                cmds += esc + 'd' + '\x01';
                 cmds += '---------------------------------';
                 cmds += newLine;
                 cmds += esc + '!' + '\x16'; 
@@ -184,9 +186,10 @@ var arrayOfRows = [];
                 cmds += arrayOfRows[i][1];
                 cmds += newLine;
                 cmds += 'Location: ' + arrayOfRows[i][4];
+                cmds += newLine;
                 cmds += ' Tel: ' + arrayOfRows[i][2]; 
                 cmds += newLine;
-                cmds += esc + 'd' + '\x03';
+                cmds += esc + 'd' + '\x01';
                 cmds += '---------------------------------';
             // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
                 cmds += newLine;
@@ -212,13 +215,13 @@ var arrayOfRows = [];
                 cmds += newLine; 
                 cmds += 'Date:'; 
                 //cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-                cmds += esc + 'd' + '\x02';
+                cmds += esc + 'd' + '\x01';
                 cmds += newLine;
                 cmds += '---------------------------------';
                 cmds += newLine;
                 cmds += 'Payment: ' + arrayOfRows[i][9];
+                cmds += newLine;
 
-                cmds += '---------------------------------';
                 cmds += GS + 'V' + '\x00';
     
                
