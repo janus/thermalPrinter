@@ -136,6 +136,7 @@ var arrayOfRows = [];
             }
 
             for(var i = 0; i < arrayOfRows.length; i++) {
+                
                 //Set content to print...
                 //Create ESP/POS commands for sample label
                 var esc = '\x1B'; //ESC byte in hex notation
@@ -150,8 +151,8 @@ var arrayOfRows = [];
 
                 var date = new Date(); 
                 var cmds = esc + "@"; //Initializes the printer (ESC @)
-                cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x8e' + '\x08';
-
+                cmds += esc  + '\x57'+ '\x00' + '\x00' + '\x00' + '\x00' + '\x00'  + '\x02' + '\x9e' + '\x09';
+                // page size
                 cmds += esc + '!' + '\x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
                 cmds += esc + 'a' + '\x01';
                 cmds += esc + 'M' + '\x00';
@@ -164,7 +165,7 @@ var arrayOfRows = [];
                 cmds += 'Tel: '+ '0906 800 0023 ';
                 cmds += 'website' + ' www.hail.ng';
                 cmds += newLine;
-                cmds += esc + 'd' + '\x03';
+                cmds += esc + 'd' + '\x02';
                 cmds += '---------------------------------';
                 cmds += newLine; 
                 cmds += esc + '!' + '\x16';
@@ -173,7 +174,7 @@ var arrayOfRows = [];
                 cmds += esc + '!' + '\x00';
                 cmds += company + ', ' + address;
                 cmds += newLine;
-                cmds += esc + 'd' + '\x03';
+                cmds += esc + 'd' + '\x02';
                 cmds += '---------------------------------';
                 cmds += newLine;
                 cmds += esc + '!' + '\x16'; 
@@ -199,17 +200,19 @@ var arrayOfRows = [];
                 cmds += newLine;
                 cmds += 'Date :' + date.toDateString();
                 cmds += newLine;
+                cmds += newLine;
                 cmds += GS + 'H'  + '\x02';
                 cmds += GS + 'f'  + '\x01';
                 cmds += GS + 'h'  + '\x23';
                 cmds += GS + 'k'  + '\x02' + waybillStr + '\x00' + '\x0A';
                 cmds += '---------------------------------';
+                cmds += newLine;
                 cmds += esc + 'a' +'\x00';
                 cmds += 'Recipient\'s: Signature:' ;
                 cmds += newLine; 
                 cmds += 'Date:'; 
                 //cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
-                cmds += esc + 'd' + '\x03';
+                cmds += esc + 'd' + '\x02';
                 cmds += newLine;
                 cmds += '---------------------------------';
                 cmds += newLine;
